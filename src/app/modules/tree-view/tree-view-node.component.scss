@@ -1,0 +1,55 @@
+@-webkit-keyframes fadeItDiv {
+  0%   { background-color: lightgray; }
+  20%   { background-color: lightgray; }
+  100% { background-color: #fff; }
+}
+@-moz-keyframes fadeItDiv {
+  0%   { background-color: lightgray; }
+  20%   { background-color: lightgray; }
+  100% { background-color: #fff; }
+}
+@-o-keyframes fadeItDiv {
+  0%   { background-color: lightgray; }
+  20%   { background-color: lightgray; }
+  100% { background-color: #fff; }
+}
+@keyframes fadeItDiv {
+  0%   { background-color: lightgray; }
+  20%   { background-color: lightgray; }
+  100% { background-color: #fff; }
+}
+
+.focusOnDiv{
+  -webkit-animation: fadeItDiv 1s ease-in-out;
+  -moz-animation: fadeItDiv 1s ease-in-out;
+  -o-animation: fadeItDiv 1s ease-in-out;
+  animation: fadeItDiv 1s ease-in-out;
+}
+
+@-webkit-keyframes fadeItFont {
+  0%   { color: lightgray; }
+  20%   { color: lightgray; }
+  100% { color: #fff; }
+}
+@-moz-keyframes fadeItFont {
+  0%   { color: lightgray; }
+  20%   { color: lightgray; }
+  100% { color: #fff; }
+}
+@-o-keyframes fadeItFont {
+  0%   { color: lightgray; }
+  20%   { color: lightgray; }
+  100% { color: #fff; }
+}
+@keyframes fadeItFont {
+  0%   { color: lightgray; }
+  20%   { color: lightgray; }
+  100% { color: #fff; }
+}
+
+.focusOnFont{
+  -webkit-animation: fadeItFont 1s ease-in-out;
+  -moz-animation: fadeItFont 1s ease-in-out;
+  -o-animation: fadeItFont 1s ease-in-out;
+  animation: fadeItFont 1s ease-in-out;
+}

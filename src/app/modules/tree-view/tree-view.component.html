@@ -1,0 +1,28 @@
+
+<div class="row mb-2">
+    <div class="container">
+        <em><small>caricati {{ count }} elementi</small></em>
+        <div class="btn-group btn-group-sm float-right" role="group">
+            <input #input [(ngModel)]="filter" (input)="onFilterInput($event)">
+            <button
+                    (click)="onExpandTree()"
+                    class="btn btn-light mr-0"
+            ><i class="fa fa-folder-open cursor-pointer text-dark" aria-hidden="true"></i></button>
+            <button
+                    (click)="onReduceTree()"
+                    class="btn btn-light"
+            ><i class="fa fa-folder cursor-pointer text-dark" aria-hidden="true"></i></button>
+        </div>
+    </div>
+</div>
+<div class="row container">
+</div>
+<ul class="list-group">
+    <div *ngFor="let node of nodes">
+        <app-tree-view-node
+        [indent]="0"
+        [node]="node"
+        [focusOnNode]="focusOnNode"
+        ></app-tree-view-node>
+    </div>
+</ul>
