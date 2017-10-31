@@ -1,101 +1,98 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { TreeViewNode } from './tree-view-node.model';
-import { Subject } from 'rxjs/Subject';
+import {Component, Input, OnChanges, OnInit, TemplateRef} from '@angular/core';
+import {TreeViewNodeModel} from './model/tree-view-node.model';
+import {Subject} from 'rxjs/Subject';
 import 'rxjs/add/operator/debounceTime';
+import {TreeViewNodeTemplateContext} from './model/tree-view-node-template-context';
 
 @Component({
-    selector: 'app-tree-view',
-    templateUrl: './tree-view.component.html'
+  selector: 'app-tree-view',
+  templateUrl: './tree-view.component.html'
 })
 export class TreeViewComponent implements OnInit, OnChanges {
 
-    @Input() nodes: Array<TreeViewNode>;
+  @Input() treeViewNodeTemplate: TemplateRef<TreeViewNodeTemplateContext>;
 
-    @Input() focusOnNode;
+  @Input() nodes: Array<TreeViewNodeModel>;
 
-    @Input() expand = false;
-    @Input() collapse = false;
+  @Input() focusOnNode;
 
-    onFiltering: Subject<string> = new Subject();
-    filter;
-    count: number = null;
+  onFiltering: Subject<string> = new Subject();
+  filter;
+  count: number = null;
 
-    constructor() {}
+  constructor() {}
 
-    ngOnInit() {
-        console.log('Sto inizializzando il tree...');
-        this.onFiltering.debounceTime(400).subscribe(
-            x => this.filterTree(x)
-        );
-        this.scrollToAnchor(this.focusOnNode, 0);
+  ngOnInit() {
+    console.log('Initializing tree...');
+    this.onFiltering.debounceTime(400).subscribe(
+      x => this.filterTree(x)
+    );
+    this.scrollToAnchor(this.focusOnNode, 0);
+  }
+
+  ngOnChanges(change) {
+    console.log('ngOnChanges ...');
+    // console.log(change);
+    if (this.count === null && this.nodes) {
+      console.log('Initializing number of the nodes ...');
+      this.count = this.countTree(this.nodes);
     }
+  }
 
-    ngOnChanges(change) {
-        console.log('Sto eseguendo la ngOnChanges ...');
-        // console.log(change);
-        if (this.count === null && this.nodes) {
-            console.log('Sto inizializzando il numero di nodi ...');
-            this.count = this.countTree(this.nodes);
-        }
-    }
+  public onExpandTree() {
+    console.log('Expanding tree...');
+    this.nodes.forEach(node => node.expand(true));
+  }
 
-    public onExpandTree() {
-        this.expand = true;
-        this.collapse = false;
-        console.log('Sto espandendo il tree...');
-        this.nodes.forEach(node => node.expand(true));
-    }
+  public onReduceTree() {
+    console.log('Reducing tree...');
+    this.nodes.forEach(node => node.expand(false));
+  }
 
-    public onReduceTree() {
-        this.expand = false;
-        this.collapse = true;
-        console.log('Sto riducendo il tree...');
-        this.nodes.forEach(node => node.expand(false));
-    }
+  public onFilterInput(e) {
+    this.onFiltering.next(e.target.value);
+  }
 
-    public onFilterInput(e) {
-        this.onFiltering.next(e.target.value);
-    }
+  /**
+   * A node is selected if the node or at least one of its children match the term filter.
+   * @param {string} filter
+   */
+  public filterTree(filter: string) {
+    console.log('Filtering ...');
+    this.filter = filter;
+    this.nodes.forEach(node => {
+      node.filter(this.filter, false, false);
+    });
+    this.count = this.countTree(this.nodes);
+  }
 
-    /**
-     * Un nodo viene selezionato se esso o almeno uno dei figli rispetta il filtro.
-     * @param {string} filter
-     */
-    public filterTree(filter: string) {
-        console.log('Sto filtrando i nodi da visualizzare...');
-        this.filter = filter;
-        this.nodes.forEach(node => {
-            node.filter(this.filter, false, false);
-        });
-        this.count = this.countTree(this.nodes);
-    }
+  /**
+   * The number of the node of the tree.
+   * @param {TreeViewNode[]} nodes
+   * @returns {number}
+   */
+  private countTree(nodes: TreeViewNodeModel[]) {
+    console.log('Counting rendered nodes ...');
+    let c = 0;
+    nodes.forEach(node => c = c + node.getSize());
+    return c;
+  }
 
-    /**
-     * Il numero di nodi dell'albero.
-     * @param {TreeViewNode[]} nodes
-     * @returns {number}
-     */
-    private countTree(nodes: TreeViewNode[]) {
-        console.log('Sto contando il numero di nodi visualizzati...');
-        let c = 0;
-        nodes.forEach(node => c = c + node.size());
-        return c;
-    }
+  /**
+   * Utility per effettuare lo scroll sull'element con id location.
+   * @param {string} location
+   * @param {number} wait
+   */
+  private scrollToAnchor(location: string, wait: number): void {
+    setTimeout(() => {
+      const element = document.querySelector('#n' + location);
+      if (element) {
+        const elementRect = element.getBoundingClientRect();
+        const absoluteElementTop = elementRect.top + window.pageYOffset;
+        const middle = absoluteElementTop - (window.innerHeight / 2);
+        window.scrollTo(0, middle);
+      }
+    }, wait);
+  }
 
-    /**
-     * Utility per effettuare lo scroll sull'element con id location.
-     * @param {string} location
-     * @param {number} wait
-     */
-    private scrollToAnchor(location: string, wait: number): void {
-        setTimeout(() => {
-            const element = document.querySelector('#n' + location);
-            if (element) {
-                const elementRect = element.getBoundingClientRect();
-                const absoluteElementTop = elementRect.top + window.pageYOffset;
-                const middle = absoluteElementTop - (window.innerHeight / 2);
-                window.scrollTo(0, middle);
-            }
-        }, wait);
-    }
 }

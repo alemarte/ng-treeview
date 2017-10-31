@@ -2,8 +2,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { HeaderModule } from './modules/header/header.module';
 import { TreeViewModule } from './modules/tree-view/tree-view.module';
+import {RouterModule, Routes} from '@angular/router';
+
+const appRoutes: Routes = [
+  { path: '', component: AppComponent}
+];
 
 @NgModule({
   declarations: [
@@ -11,8 +15,8 @@ import { TreeViewModule } from './modules/tree-view/tree-view.module';
   ],
   imports: [
     BrowserModule,
-    HeaderModule,
-    TreeViewModule
+    RouterModule.forRoot(appRoutes),
+    TreeViewModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

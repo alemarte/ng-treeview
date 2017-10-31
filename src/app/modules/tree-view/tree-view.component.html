@@ -1,7 +1,6 @@
-
 <div class="row mb-2">
     <div class="container">
-        <em><small>caricati {{ count }} elementi</small></em>
+        <em><small>shown {{ count }} elements</small></em>
         <div class="btn-group btn-group-sm float-right" role="group">
             <input #input [(ngModel)]="filter" (input)="onFilterInput($event)">
             <button
@@ -20,9 +19,51 @@
 <ul class="list-group">
     <div *ngFor="let node of nodes">
         <app-tree-view-node
+        [treeViewNodeTemplate]="treeViewNodeTemplate || defaultTemplate"
         [indent]="0"
         [node]="node"
         [focusOnNode]="focusOnNode"
         ></app-tree-view-node>
     </div>
 </ul>
+
+
+<ng-template #defaultTemplate  let-node="node" let-indent="indent">
+  <div *ngIf="!node.filtered" class="list-group-item" id="n{{ node.id }}" [ngClass]="{'focusOnDiv': focusOnNode === node.id}">
+    <a href="#{{ node.id }}"></a>
+
+    <div class="row">
+      <div class="col-xs-10 col-sm-10 col-md-10">
+        <div [ngStyle]="{'padding-left': node.getIndentation(indent)}">
+          <!-- Icona da aprire --><i *ngIf="node.children.length > 0 && !node.expanded" class="fa fa-folder cursor-pointer text-primary" aria-hidden="true" (click)="node.toggle()"></i>
+          <!-- Icona da chidere --><i *ngIf="node.children.length > 0 && node.expanded" class="fa fa-folder-open cursor-pointer  text-primary" aria-hidden="true" (click)="node.toggle()"></i>
+          <!-- Icona foglia --><i *ngIf="node.children.length === 0" class="fa fa-circle-thin text-primary" aria-hidden="true"></i>
+
+          {{ node.description }}
+        </div>
+      </div>
+      <div class="d-none d-sm-block col-2">
+        <div class="btn-group btn-group-sm pull-right" role="group">
+          <button *ngIf="node.getShowRoute()" type="button" class="btn btn-secondary" [routerLink]="[node.getShowRoute()]">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+          </button>
+          <button *ngIf="node.getEditRoute()" type="button" class="btn btn-secondary" [routerLink]="[node.getEditRoute()]">
+            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div  *ngIf="node.expanded" >
+    <div *ngFor="let child of node.children">
+      <app-tree-view-node
+        [treeViewNodeTemplate]="defaultTemplate"
+        [indent]="indent + 1"
+        [node]="child"
+        [focusOnNode]="focusOnNode"
+      ></app-tree-view-node>
+    </div>
+  </div>
+
+</ng-template>

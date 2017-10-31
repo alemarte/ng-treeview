@@ -1,32 +1,30 @@
-import { Component, Input } from '@angular/core';
-import { TreeViewNode } from './tree-view-node.model';
+import {Component, Input, OnInit, TemplateRef} from '@angular/core';
+import {TreeViewNodeTemplateContext} from './model/tree-view-node-template-context';
+import {TreeViewNodeModel} from './model/tree-view-node.model';
 
 @Component({
     selector: 'app-tree-view-node',
     templateUrl: './tree-view-node.component.html',
     styleUrls: ['./tree-view-node.component.scss']
 })
-export class TreeViewNodeComponent {
+export class TreeViewNodeComponent implements OnInit {
 
-    @Input() node: TreeViewNode;
+    @Input() treeViewNodeTemplate: TemplateRef<TreeViewNodeTemplateContext>;
+
+    @Input() node: TreeViewNodeModel;
     @Input() indent = 0;
     @Input() focusOnNode;
 
+    treeViewNodeContext: TreeViewNodeTemplateContext;
+
     constructor() {}
 
-     getIndentation() {
-        return this.indent * 2 + 'em';
+    ngOnInit() {
+      this.treeViewNodeContext = {
+        node: this.node,
+        indent: this.indent,
+        focusOnNode: this.focusOnNode
+      };
     }
-
-    // getBgColor() {
-    //     // if (this.indent === 0) {
-    //     //     return 'orange';
-    //     // }
-    //     // if (this.indent === 1) {
-    //     //     return '#F8F8F8';
-    //     // }
-    //     return '#FFFFFF';
-    // }
-
 
 }
