@@ -13,6 +13,5 @@ export interface TreeViewNodeModel {
 
   toggle(): void;
   expand(value: boolean): void;
-  filter(term: string, force: boolean, value: boolean): void;
-
+  filter(term: string);
 }

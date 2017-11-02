@@ -29,21 +29,6 @@ export class TreeViewNode implements TreeViewNodeModel {
   }
 
   /**
-   * Size of the tree with root this.
-   * @returns {number}
-   */
-  public getSize(): number {
-    if (this.filtered) {
-      return 0;
-    }
-    let c = 0;
-    this.children.forEach( child => {
-      c = c + child.getSize();
-    });
-    return c + 1;
-  }
-
-  /**
    * Show route.
    * @returns {string}
    */
@@ -82,7 +67,12 @@ export class TreeViewNode implements TreeViewNodeModel {
    * @param {boolean} force
    * @param {boolean} value
    */
-  public filter(term: string, force: boolean = false, value: boolean) {
+  public filter(term: string) {
+    this.filterImpl(term, false, false);
+  }
+
+
+  private filterImpl(term: string, force: boolean = false, value: boolean) {
 
     console.log(this);
     console.log(term);
@@ -93,7 +83,7 @@ export class TreeViewNode implements TreeViewNodeModel {
     if (force) {
       this.filtered = value;
       this.children.forEach(child => {
-        child.filter(term, force, value);
+        child.filterImpl(term, force, value);
       });
       return;
     }
@@ -120,14 +110,14 @@ export class TreeViewNode implements TreeViewNodeModel {
     if (!filtered) {
       this.filtered = filtered;
       this.children.forEach(child => {
-        child.filter(term, true, false);
+        child.filterImpl(term, true, false);
       });
       return;
     }
 
     // not matching: keeping the node if at least one children is matching.
     this.children.forEach(child => {
-      child.filter(term, false, false);
+      child.filterImpl(term, false, false);
       if (!child.filtered) {
         filtered = false;
       }
@@ -135,9 +125,27 @@ export class TreeViewNode implements TreeViewNodeModel {
     this.filtered = filtered;
   }
 
+  /**
+   * Size of the tree with root this.
+   * @returns {number}
+   */
+  public getSize(): number {
+    if (this.filtered) {
+      return 0;
+    }
+    let c = 0;
+    this.children.forEach( child => {
+      c = c + child.getSize();
+    });
+    return c + 1;
+  }
+
+  /**
+   * The item indentation.
+   * @param indent
+   * @returns {string}
+   */
   public getIndentation(indent) {
     return indent * 2 + 'em';
   }
-
-
 }

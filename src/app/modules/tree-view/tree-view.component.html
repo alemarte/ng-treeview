@@ -1,53 +1,83 @@
-<div class="row mb-2">
-    <div class="container">
-        <em><small>shown {{ count }} elements</small></em>
-        <div class="btn-group btn-group-sm float-right" role="group">
-            <input #input [(ngModel)]="filter" (input)="onFilterInput($event)">
-            <button
-                    (click)="onExpandTree()"
-                    class="btn btn-light mr-0"
-            ><i class="fa fa-folder-open cursor-pointer text-dark" aria-hidden="true"></i></button>
-            <button
-                    (click)="onReduceTree()"
-                    class="btn btn-light"
-            ><i class="fa fa-folder cursor-pointer text-dark" aria-hidden="true"></i></button>
-        </div>
-    </div>
-</div>
+
+<app-tree-view-header
+  [treeViewHeaderTemplate]="treeViewHeaderTemplate || defaultHeaderTemplate"
+  [count]="count"
+  [filter]="filter"
+  [onfiltering]="onFiltering"
+  [nodes]="nodes"
+></app-tree-view-header>
+
 <div class="row container">
 </div>
 <ul class="list-group">
-    <div *ngFor="let node of nodes">
-        <app-tree-view-node
-        [treeViewNodeTemplate]="treeViewNodeTemplate || defaultTemplate"
-        [indent]="0"
-        [node]="node"
-        [focusOnNode]="focusOnNode"
-        ></app-tree-view-node>
-    </div>
+  <div *ngFor="let node of nodes">
+    <app-tree-view-node
+      [treeViewNodeTemplate]="treeViewNodeTemplate || defaultTemplate"
+      [indent]="0"
+      [node]="node"
+      [focusOnNode]="focusOnNode"
+    ></app-tree-view-node>
+  </div>
 </ul>
 
+<ng-template #defaultHeaderTemplate let-nodes="nodes" let-count="count" let-filter="filter" let-onfiltering="onfiltering">
+  <div class="row mb-2">
+    <div class="container">
+      <em><small> {{ treeViewConfig.countMessage(count) }}</small></em>
+      <div class="btn-group btn-group-sm float-right" role="group">
+        <input class="form-control form-control-sm"
+               #input [ngModel]="filter"
+               placeholder="{{ treeViewConfig.filterPlaceholder }}"
+               (input)="treeViewService.onFilterInput($event, onfiltering)">
+        <button (click)="treeViewService.onExpandTree(nodes)"
+                class="btn btn-{{ treeViewConfig.expandBootstrapColor }} btn-sm mr-0">
+          <i class="fa fa-{{ treeViewConfig.expandFaIcon }} text-{{ treeViewConfig.expandBootstrapText }}"
+             aria-hidden="true"></i>
+        </button>
+        <button (click)="treeViewService.onReduceTree(nodes)"
+                class="btn btn-{{ treeViewConfig.reduceBootstrapColor }} btn-sm">
+          <i class="fa fa-{{ treeViewConfig.reduceFaIcon }} text-{{ treeViewConfig.reduceBootstrapText }}"
+             aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
 
-<ng-template #defaultTemplate  let-node="node" let-indent="indent">
-  <div *ngIf="!node.filtered" class="list-group-item" id="n{{ node.id }}" [ngClass]="{'focusOnDiv': focusOnNode === node.id}">
+<ng-template #defaultTemplate  let-node="node" let-indent="indent" let-focus="focus">
+
+  <div *ngIf="!node.filtered" class="list-group-item" id="n{{ node.id }}" [ngClass]="{'focusOnDiv': focus === node.id}">
+
     <a href="#{{ node.id }}"></a>
 
     <div class="row">
       <div class="col-xs-10 col-sm-10 col-md-10">
         <div [ngStyle]="{'padding-left': node.getIndentation(indent)}">
-          <!-- Icona da aprire --><i *ngIf="node.children.length > 0 && !node.expanded" class="fa fa-folder cursor-pointer text-primary" aria-hidden="true" (click)="node.toggle()"></i>
-          <!-- Icona da chidere --><i *ngIf="node.children.length > 0 && node.expanded" class="fa fa-folder-open cursor-pointer  text-primary" aria-hidden="true" (click)="node.toggle()"></i>
-          <!-- Icona foglia --><i *ngIf="node.children.length === 0" class="fa fa-circle-thin text-primary" aria-hidden="true"></i>
+          <i *ngIf="node.children.length > 0 && !node.expanded"
+             class="fa fa-{{ treeViewConfig.expandFaIcon }} text-{{ treeViewConfig.iconBootstrapColor }}"
+             aria-hidden="true" (click)="node.toggle()"></i>
+          <i *ngIf="node.children.length > 0 && node.expanded"
+             class="fa fa-{{ treeViewConfig.reduceFaIcon }} text-{{ treeViewConfig.iconBootstrapColor }}"
+             aria-hidden="true" (click)="node.toggle()"></i>
+          <i *ngIf="node.children.length === 0"
+             class="fa fa-{{ treeViewConfig.leafFaIcon }} text-{{ treeViewConfig.iconBootstrapColor }}"
+             aria-hidden="true"></i>
 
-          {{ node.description }}
+          {{ node.title }}
         </div>
       </div>
       <div class="d-none d-sm-block col-2">
         <div class="btn-group btn-group-sm pull-right" role="group">
-          <button *ngIf="node.getShowRoute()" type="button" class="btn btn-secondary" [routerLink]="[node.getShowRoute()]">
+          <button *ngIf="node.getShowRoute()"
+                  type="button"
+                  class="btn btn-{{ treeViewConfig.itemViewColor }}"
+                  [routerLink]="[node.getShowRoute()]">
             <i class="fa fa-eye" aria-hidden="true"></i>
           </button>
-          <button *ngIf="node.getEditRoute()" type="button" class="btn btn-secondary" [routerLink]="[node.getEditRoute()]">
+          <button *ngIf="node.getEditRoute()"
+                  type="button"
+                  class="btn btn-{{ treeViewConfig.itemEditColor }}"
+                  [routerLink]="[node.getEditRoute()]">
             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
           </button>
         </div>
@@ -55,13 +85,14 @@
 
     </div>
   </div>
+
   <div  *ngIf="node.expanded" >
     <div *ngFor="let child of node.children">
       <app-tree-view-node
         [treeViewNodeTemplate]="defaultTemplate"
         [indent]="indent + 1"
         [node]="child"
-        [focusOnNode]="focusOnNode"
+        [focusOnNode]="focus"
       ></app-tree-view-node>
     </div>
   </div>

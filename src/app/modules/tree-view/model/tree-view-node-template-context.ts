@@ -12,6 +12,6 @@ export interface TreeViewNodeTemplateContext {
 
   indent: number;
 
-  focusOnNode: number;
+  focus: number;
 
 }

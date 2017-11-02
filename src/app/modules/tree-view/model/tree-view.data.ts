@@ -1,22 +1,22 @@
 const data = [
   {
     id: 1,
-    title: 'Node 1',
-    description: 'Description 1',
+    title: 'Europe',
+    description: 'Europe',
     code1: 'Field1 1',
     code2: 'Field2 1',
     children: [
       {
         id: 2,
-        title: 'Node 1.1',
-        description: 'Description 1.1',
+        title: 'Italy',
+        description: 'Italy',
         code1: 'Field1 1.1',
         code2: 'Field2 1.1',
         children: [
           {
             id: 3,
-            title: 'Node 1.1.1',
-            description: 'Description 1.1.1',
+            title: 'Rome',
+            description: 'Rome',
             code1: 'Field1 1.1.1',
             code2: 'Field2 1.1.1',
             children: [
@@ -25,8 +25,8 @@ const data = [
           },
           {
             id: 4,
-            title: 'Node 1.1.2',
-            description: 'Description 1.1.2',
+            title: 'Milan',
+            description: 'Milan',
             code1: 'Field1 1.1.2',
             code2: 'Field2 1.1.2',
             children: [
@@ -36,9 +36,9 @@ const data = [
         ]
       },
       {
-        id: 1,
-        title: 'Node 1.2',
-        description: 'Description 1.2',
+        id: 5,
+        title: 'England',
+        description: 'England',
         code1: 'Field1 1.2',
         code2: 'Field2 1.2',
         children: [

@@ -1,11 +1,10 @@
 import {Component, Input, OnInit, TemplateRef} from '@angular/core';
-import {TreeViewNodeTemplateContext} from './model/tree-view-node-template-context';
-import {TreeViewNodeModel} from './model/tree-view-node.model';
+import {TreeViewNodeTemplateContext} from '../model/tree-view-node-template-context';
+import {TreeViewNodeModel} from '../model/tree-view-node.model';
 
 @Component({
     selector: 'app-tree-view-node',
-    templateUrl: './tree-view-node.component.html',
-    styleUrls: ['./tree-view-node.component.scss']
+    templateUrl: './tree-view-node.component.html'
 })
 export class TreeViewNodeComponent implements OnInit {
 
@@ -23,7 +22,7 @@ export class TreeViewNodeComponent implements OnInit {
       this.treeViewNodeContext = {
         node: this.node,
         indent: this.indent,
-        focusOnNode: this.focusOnNode
+        focus: this.focusOnNode
       };
     }
 
