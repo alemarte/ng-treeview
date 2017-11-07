@@ -1,0 +1,96 @@
+<!-- TreeView -->
+<div class="container">
+  <div class="row mt-5 mb-4"><h2>Tree View Example - With Custom Template</h2></div>
+  <app-tree-view [tree]="tree"
+                 [treeViewHeaderTemplate]="customHeaderTemplate"
+                 [treeViewNodeTemplate]="customTemplate"
+                 [focusId]="1"></app-tree-view>
+</div>
+
+<!-- Custom Header Definition -->
+<ng-template #customHeaderTemplate
+             let-tree="tree"
+             let-filter="filter">
+  <div class="row mb-2">
+    <div class="container">
+      <em><small> shown {{ tree.getSize() }} elements </small></em>
+      <div class="btn-group btn-group-sm float-right" role="group">
+        <input class="form-control form-control-sm"
+               placeholder="Search"
+               (input)="tree.onFilterInput($event)">
+        <button
+          (click)="tree.onExpandTree()"
+          class="btn btn-primary btn-sm mr-0">
+          <i class="fa fa-plus"></i>
+        </button>
+        <button
+          (click)="tree.onCollapseTree()"
+          class="btn btn-primary btn-sm">
+          <i class="fa fa-minus"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Custom Template Definition-->
+<ng-template #customTemplate
+             let-node="node"
+             let-focusId="focusId">
+  <div *ngIf="node.isFiltered()"
+       class="list-group-item"
+       id="n{{ node.getId() }}"
+       [ngClass]="node.classes(tree, focusId)">
+    <a href="#{{ node.getId() }}"></a>
+
+    <div class="row">
+      <div class="col-xs-10 col-sm-10 col-md-8">
+        <div [ngStyle]="node.styles(node.getLevel())">
+          <i *ngIf="node.getChildren().length > 0 && !node.isExpanded()"
+             class="fa fa-plus text-primary"
+             (click)="node.toggle()"></i>
+          <i *ngIf="node.getChildren().length > 0 && node.isExpanded()"
+             class="fa fa-minus text-primary"
+             (click)="node.toggle()"></i>
+          <i *ngIf="node.getChildren().length === 0"
+             class="fa fa-circle-thin text-primary" ></i>
+          {{ node.title}}
+        </div>
+      </div>
+      <div class="col-1 d-none d-md-block">
+        {{ node.code }}
+      </div>
+      <div class="col-1 d-none d-md-block">
+        <img *ngIf="node.img" src="{{ node.img }}" height="42"/>
+      </div>
+
+      <div class="d-none d-sm-block col-2">
+        <div class="btn-group btn-group-sm pull-right" role="group">
+          <button *ngIf="node.getShowRoute()"
+                  type="button"
+                  class="btn btn-secondary"
+                  [routerLink]="[node.getShowRoute()]">
+            <i class="fa fa-eye"></i>
+          </button>
+          <button *ngIf="node.getEditRoute()"
+                  type="button"
+                  class="btn btn-secondary"
+                  [routerLink]="[node.getEditRoute()]">
+            <i class="fa fa-pencil-square-o"></i>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div  *ngIf="node.isExpanded()" >
+    <div *ngFor="let child of node.getChildren()">
+      <app-tree-view-node
+        [treeViewNodeTemplate]="customTemplate"
+        [node]="child"
+        [focusId]="focusId"
+      ></app-tree-view-node>
+    </div>
+  </div>
+
+</ng-template>

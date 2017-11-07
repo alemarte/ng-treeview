@@ -19,37 +19,22 @@
   100% { background-color: #fff; }
 }
 
-.focusOnDiv{
+.focus-item{
   -webkit-animation: fadeItDiv 1s ease-in-out;
   -moz-animation: fadeItDiv 1s ease-in-out;
   -o-animation: fadeItDiv 1s ease-in-out;
   animation: fadeItDiv 1s ease-in-out;
 }
 
-@-webkit-keyframes fadeItFont {
-  0%   { color: lightgray; }
-  20%   { color: lightgray; }
-  100% { color: #fff; }
-}
-@-moz-keyframes fadeItFont {
-  0%   { color: lightgray; }
-  20%   { color: lightgray; }
-  100% { color: #fff; }
-}
-@-o-keyframes fadeItFont {
-  0%   { color: lightgray; }
-  20%   { color: lightgray; }
-  100% { color: #fff; }
-}
-@keyframes fadeItFont {
-  0%   { color: lightgray; }
-  20%   { color: lightgray; }
-  100% { color: #fff; }
+.first-item {
+  border-radius: .25rem .25rem 0rem 0rem;
 }
 
-.focusOnFont{
-  -webkit-animation: fadeItFont 1s ease-in-out;
-  -moz-animation: fadeItFont 1s ease-in-out;
-  -o-animation: fadeItFont 1s ease-in-out;
-  animation: fadeItFont 1s ease-in-out;
+.last-item {
+  border-radius: .0rem .0rem .25rem .25rem;
 }
+
+.middle-item {
+  border-radius: .0rem .0rem .0rem .0rem !important;
+}
+

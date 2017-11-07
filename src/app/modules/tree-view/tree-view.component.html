@@ -1,28 +1,106 @@
-
-<div class="row mb-2">
-    <div class="container">
-        <em><small>caricati {{ count }} elementi</small></em>
-        <div class="btn-group btn-group-sm float-right" role="group">
-            <input #input [(ngModel)]="filter" (input)="onFilterInput($event)">
-            <button
-                    (click)="onExpandTree()"
-                    class="btn btn-light mr-0"
-            ><i class="fa fa-folder-open cursor-pointer text-dark" aria-hidden="true"></i></button>
-            <button
-                    (click)="onReduceTree()"
-                    class="btn btn-light"
-            ><i class="fa fa-folder cursor-pointer text-dark" aria-hidden="true"></i></button>
-        </div>
-    </div>
+<!-- HEADER -->
+<div *ngIf="tree">
+  <app-tree-view-header
+    [treeViewHeaderTemplate]="treeViewHeaderTemplate || defaultHeaderTemplate"
+    [filter]="filter"
+    [tree]="tree"
+  ></app-tree-view-header>
 </div>
+
+<ng-template #defaultHeaderTemplate
+             let-tree="tree"
+             let-filter="filter">
+
+  <div class="row mb-2">
+    <div class="container">
+
+      <em><small> {{ treeViewConfig.countMessage(tree.getSize())}}</small></em>
+
+      <div class="btn-group btn-group-sm float-right" role="group">
+        <input class="form-control form-control-sm"
+               #input [ngModel]="filter"
+               placeholder="{{ treeViewConfig.filterPlaceholder }}"
+               (input)="tree.onFilterInput($event)">
+        <button (click)="tree.onExpandTree()"
+                class="btn btn-{{ treeViewConfig.expandBootstrapColor }} btn-sm mr-0">
+          <i class="fa fa-{{ treeViewConfig.expandFaIcon }} text-{{ treeViewConfig.expandBootstrapText }}"
+             aria-hidden="true"></i>
+        </button>
+        <button (click)="tree.onCollapseTree()"
+                class="btn btn-{{ treeViewConfig.reduceBootstrapColor }} btn-sm">
+          <i class="fa fa-{{ treeViewConfig.reduceFaIcon }} text-{{ treeViewConfig.reduceBootstrapText }}"
+             aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
 <div class="row container">
 </div>
-<ul class="list-group">
-    <div *ngFor="let node of nodes">
-        <app-tree-view-node
-        [indent]="0"
-        [node]="node"
-        [focusOnNode]="focusOnNode"
-        ></app-tree-view-node>
+<!-- LIST -->
+
+<div class="list-group">
+  <div *ngFor="let node of tree.getNodes()">
+    <app-tree-view-node
+      [treeViewNodeTemplate]="treeViewNodeTemplate || defaultTemplate"
+      [node]="node"
+      [focusId]="focusId"
+    ></app-tree-view-node>
+  </div>
+</div>
+
+<ng-template #defaultTemplate  let-node="node" let-focusId="focusId">
+
+  <div *ngIf="node.isFiltered()"
+       class="list-group-item"
+       id="n{{ node.getId() }}"
+       [ngClass]="node.classes(tree, focusId)">
+    <div class="row">
+      <div class="col-xs-10 col-sm-10 col-md-10">
+        <div [ngStyle]="node.styles(node.getLevel())">
+          <i *ngIf="node.getChildren().length > 0 && !node.isExpanded()"
+             class="fa fa-{{ treeViewConfig.expandFaIcon }} text-{{ treeViewConfig.iconBootstrapColor }}"
+             aria-hidden="true" (click)="node.toggle()"></i>
+          <i *ngIf="node.getChildren().length > 0 && node.isExpanded()"
+             class="fa fa-{{ treeViewConfig.reduceFaIcon }} text-{{ treeViewConfig.iconBootstrapColor }}"
+             aria-hidden="true" (click)="node.toggle()"></i>
+          <i *ngIf="node.getChildren().length === 0"
+             class="fa fa-{{ treeViewConfig.leafFaIcon }} text-{{ treeViewConfig.iconBootstrapColor }}"
+             aria-hidden="true"></i>
+
+          {{ node.title }}
+
+        </div>
+      </div>
+      <div class="d-none d-sm-block col-2">
+        <div class="btn-group btn-group-sm pull-right" role="group">
+          <button *ngIf="node.getShowRoute()"
+                  type="button"
+                  class="btn btn-{{ treeViewConfig.itemViewColor }}"
+                  [routerLink]="[node.getShowRoute()]">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+          </button>
+          <button *ngIf="node.getEditRoute()"
+                  type="button"
+                  class="btn btn-{{ treeViewConfig.itemEditColor }}"
+                  [routerLink]="[node.getEditRoute()]">
+            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+
     </div>
-</ul>
+  </div>
+
+  <div  *ngIf="node.isExpanded()" >
+    <div *ngFor="let child of node.getChildren()">
+      <app-tree-view-node
+        [treeViewNodeTemplate]="defaultTemplate"
+        [node]="child"
+        [focusId]="focusId"
+      ></app-tree-view-node>
+    </div>
+  </div>
+
+</ng-template>
