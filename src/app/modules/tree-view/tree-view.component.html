@@ -55,10 +55,10 @@
   <div *ngIf="node.isFiltered()"
        class="list-group-item"
        id="n{{ node.getId() }}"
-       [ngClass]="node.classes(tree, focusId)">
+       [ngClass]="node.classes(focusId)">
     <div class="row">
       <div class="col-xs-10 col-sm-10 col-md-10">
-        <div [ngStyle]="node.styles(node.getLevel())">
+        <div [ngStyle]="node.styles()">
           <i *ngIf="node.getChildren().length > 0 && !node.isExpanded()"
              class="fa fa-{{ treeViewConfig.expandFaIcon }} text-{{ treeViewConfig.iconBootstrapColor }}"
              aria-hidden="true" (click)="node.toggle()"></i>

@@ -26,12 +26,20 @@
   animation: fadeItDiv 1s ease-in-out;
 }
 
+.list-group-item {
+  margin-bottom: -1px !important;
+}
+
 .first-item {
-  border-radius: .25rem .25rem 0rem 0rem;
+  border-radius: .25rem .25rem 0rem 0rem !important;
 }
 
 .last-item {
-  border-radius: .0rem .0rem .25rem .25rem;
+  border-radius: .0rem .0rem .25rem .25rem !important;
+}
+
+.first-item.last-item  {
+  border-radius: .25rem .25rem .25rem .25rem !important;
 }
 
 .middle-item {

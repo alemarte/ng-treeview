@@ -8,7 +8,7 @@ export class TreeViewNode implements TreeViewNodeModel {
   private id: number;
   private level: number;
   private children: TreeViewNodeModel[];
-  public expanded: boolean;
+  private expanded: boolean;
   private filtered = true;
   private showRoute: string;
   private editRoute: string;
@@ -91,7 +91,7 @@ export class TreeViewNode implements TreeViewNodeModel {
     return this;
   }
 
-  public toggle() {
+  public toggle(): TreeViewNodeModel {
     this.expanded = !this.expanded;
     return this;
   }
@@ -155,27 +155,33 @@ export class TreeViewNode implements TreeViewNodeModel {
     return this;
   }
 
-  public isFirst(tree: TreeViewModel): boolean {
-    // return <TreeViewNodeModel>this === tree.getFirst();
-    return false;
+  public isFirst(): boolean {
+    if (this.tree) {
+      return <TreeViewNodeModel>this === this.tree.getFirst();
+    } else {
+      return false;
+    }
   }
 
-  public isLast(tree: TreeViewModel): boolean {
-    // return <TreeViewNodeModel>this === tree.getLast();
-    return false;
+  public isLast(): boolean {
+    if (this.tree) {
+      return <TreeViewNodeModel>this === this.tree.getLast();
+    } else {
+      return false;
+    }
   }
 
-  public styles(indent) {
+  public styles() {
     return {
-      'padding-left': indent * 2 + 'em'
+      'padding-left': this.getLevel() * 2 + 'em'
     };
   }
 
-  public classes(tree: TreeViewModel, focusId) {
+  public classes(focusId) {
     return {
-      'first-item': this.isFirst(tree),
-      'last-item': this.isLast(tree),
-      'middle-item': !this.isFirst(tree) && !this.isLast(tree),
+      'first-item': this.isFirst(),
+      'last-item': this.isLast(),
+      'middle-item': !this.isFirst() && !this.isLast(),
       'focus-item': focusId === this.getId()
     };
   }

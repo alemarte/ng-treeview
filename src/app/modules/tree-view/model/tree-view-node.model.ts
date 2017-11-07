@@ -99,7 +99,7 @@ export interface TreeViewNodeModel {
   /**
    * Toggle expanded.
    */
-  toggle();
+  toggle(): TreeViewNodeModel;
 
   /**
    * Set the expand value for the tree with root this.
@@ -132,13 +132,13 @@ export interface TreeViewNodeModel {
    * First rendered node.
    * @returns {boolean}
    */
-  isFirst(tree: TreeViewModel): boolean;
+  isFirst(): boolean;
 
   /**
    * Last rendered node.
    * @returns {boolean}
    */
-  isLast(tree: TreeViewModel): boolean;
+  isLast(): boolean;
 
   /**
    * Css classes.

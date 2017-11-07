@@ -1,7 +1,6 @@
 import {TreeViewCustomNode} from '../../../demo/custom/model/tree-view-node-custom-model';
-import {TreeViewNode} from '../model/tree-view-node-default.model';
 import {TreeView} from '../model/tree-view-default.model';
-import {TreeViewNodeModel} from '../model/tree-view-node.model';
+import {TreeViewNode} from '../model/tree-view-node-default.model';
 
 const examples = {
   customTree: function(): TreeView {

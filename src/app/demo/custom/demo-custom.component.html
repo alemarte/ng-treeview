@@ -40,12 +40,12 @@
   <div *ngIf="node.isFiltered()"
        class="list-group-item"
        id="n{{ node.getId() }}"
-       [ngClass]="node.classes(tree, focusId)">
+       [ngClass]="node.classes(focusId)">
     <a href="#{{ node.getId() }}"></a>
 
     <div class="row">
       <div class="col-xs-10 col-sm-10 col-md-8">
-        <div [ngStyle]="node.styles(node.getLevel())">
+        <div [ngStyle]="node.styles()">
           <i *ngIf="node.getChildren().length > 0 && !node.isExpanded()"
              class="fa fa-plus text-primary"
              (click)="node.toggle()"></i>
