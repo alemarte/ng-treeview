@@ -1,10 +1,10 @@
 <!-- TreeView -->
 <div class="container">
   <div class="row mt-5 mb-4"><h2>Tree View Example - With Custom Template</h2></div>
-  <app-tree-view [tree]="tree"
+  <ng-tree-view [tree]="tree"
                  [treeViewHeaderTemplate]="customHeaderTemplate"
                  [treeViewNodeTemplate]="customTemplate"
-                 [focusId]="1"></app-tree-view>
+                 [focusId]="1"></ng-tree-view>
 </div>
 
 <!-- Custom Header Definition -->
@@ -85,11 +85,11 @@
   </div>
   <div  *ngIf="node.isExpanded()" >
     <div *ngFor="let child of node.getChildren()">
-      <app-tree-view-node
+      <ng-tree-view-node
         [treeViewNodeTemplate]="customTemplate"
         [node]="child"
         [focusId]="focusId"
-      ></app-tree-view-node>
+      ></ng-tree-view-node>
     </div>
   </div>
 

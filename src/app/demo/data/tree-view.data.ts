@@ -1,6 +1,6 @@
-import {TreeViewCustomNode} from '../../../demo/custom/model/tree-view-node-custom-model';
-import {TreeView} from '../model/tree-view-default.model';
-import {TreeViewNode} from '../model/tree-view-node-default.model';
+import {TreeViewCustomNode} from '../custom/model/tree-view-node-custom-model';
+import {TreeView} from '../../modules/tree-view/model/tree-view-default.model';
+import {TreeViewNode} from '../../modules/tree-view/model/tree-view-node-default.model';
 
 const examples = {
   customTree: function(): TreeView {
@@ -78,11 +78,10 @@ const buildCustomNode = function(item): TreeViewCustomNode {
 const buildDefaultNode = function(item): TreeViewNode {
   const node = new TreeViewNode();
 
-  node.setId(item.id);
-
-  node.setFiltered(true);
-  node.setExpanded(true);
-  node.setChildren(item.children.map( child => buildDefaultNode(child)));
+  node.setId(item.id)
+    .setFiltered(true)
+    .setExpanded(true)
+    .setChildren(item.children.map( child => buildDefaultNode(child)));
 
   node.title = item.title;
 

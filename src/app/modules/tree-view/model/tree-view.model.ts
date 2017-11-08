@@ -18,22 +18,19 @@ export interface TreeViewModel {
 
   /**
    * Handler on expand tree click.
-   * @param {TreeViewNodeModel[]} nodes
    */
-  onExpandTree(nodes: TreeViewNodeModel[]);
+  onExpandTree();
 
   /**
    * Handler on collapse tree click.
-   * @param {TreeViewNodeModel[]} nodes
    */
-  onCollapseTree(nodes: TreeViewNodeModel[]);
+  onCollapseTree();
 
   /**
    * Handler on filter input.
    * @param e
-   * @param {Subject<String>} onFiltering
    */
-  onFilterInput(e, onFiltering: Subject<String>);
+  onFilterInput(e);
 
   /**
    * Foreach node of the tree applies the filter method implementation.

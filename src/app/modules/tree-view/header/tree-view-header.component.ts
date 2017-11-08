@@ -5,7 +5,7 @@ import {TreeViewHeaderTemplateContext} from '../context/tree-view-header-templat
 import {TreeViewModel} from '../model/tree-view.model';
 
 @Component({
-  selector: 'app-tree-view-header',
+  selector: 'ng-tree-view-header',
   templateUrl: './tree-view-header.component.html'
 })
 export class TreeViewHeaderComponent implements OnInit, OnChanges {

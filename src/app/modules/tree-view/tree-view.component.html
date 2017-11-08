@@ -1,10 +1,10 @@
 <!-- HEADER -->
 <div *ngIf="tree">
-  <app-tree-view-header
+  <ng-tree-view-header
     [treeViewHeaderTemplate]="treeViewHeaderTemplate || defaultHeaderTemplate"
     [filter]="filter"
     [tree]="tree"
-  ></app-tree-view-header>
+  ></ng-tree-view-header>
 </div>
 
 <ng-template #defaultHeaderTemplate
@@ -42,11 +42,11 @@
 
 <div class="list-group">
   <div *ngFor="let node of tree.getNodes()">
-    <app-tree-view-node
+    <ng-tree-view-node
       [treeViewNodeTemplate]="treeViewNodeTemplate || defaultTemplate"
       [node]="node"
       [focusId]="focusId"
-    ></app-tree-view-node>
+    ></ng-tree-view-node>
   </div>
 </div>
 
@@ -95,11 +95,11 @@
 
   <div  *ngIf="node.isExpanded()" >
     <div *ngFor="let child of node.getChildren()">
-      <app-tree-view-node
+      <ng-tree-view-node
         [treeViewNodeTemplate]="defaultTemplate"
         [node]="child"
         [focusId]="focusId"
-      ></app-tree-view-node>
+      ></ng-tree-view-node>
     </div>
   </div>
 

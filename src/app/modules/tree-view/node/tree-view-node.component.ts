@@ -3,7 +3,7 @@ import {TreeViewNodeTemplateContext} from '../context/tree-view-node-template-co
 import {TreeViewNodeModel} from '../model/tree-view-node.model';
 
 @Component({
-    selector: 'app-tree-view-node',
+    selector: 'ng-tree-view-node',
     templateUrl: './tree-view-node.component.html'
 })
 export class TreeViewNodeComponent implements OnInit, OnChanges {

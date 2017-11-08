@@ -4,7 +4,7 @@ import {TreeViewConfig} from './tree-view-config';
 import {TreeViewModel} from './model/tree-view.model';
 
 @Component({
-  selector: 'app-tree-view',
+  selector: 'ng-tree-view',
   templateUrl: './tree-view.component.html',
   styleUrls: ['./tree-view.component.scss'],
   encapsulation: ViewEncapsulation.None
