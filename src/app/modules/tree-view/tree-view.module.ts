@@ -18,10 +18,10 @@ export {TreeViewConfig} from './tree-view-config';
     imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule],
     exports: [TreeViewNodeComponent, TreeViewHeaderComponent, TreeViewComponent]
 })
-export class TreeViewModule {
+export class NgTreeViewModule {
   static forRoot(): ModuleWithProviders {
     return {
-      ngModule: TreeViewModule,
+      ngModule: NgTreeViewModule,
       providers: [
         TreeViewConfig
       ]

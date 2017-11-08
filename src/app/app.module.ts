@@ -2,7 +2,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
-import {TreeViewModule} from './modules/tree-view/tree-view.module';
+import {NgTreeViewModule} from './modules/tree-view/tree-view.module';
 import {RouterModule, Routes} from '@angular/router';
 import {DemoDefaultComponent} from './demo/default/demo-default.component';
 import {DemoCustomComponent} from './demo/custom/demo-custom.component';
@@ -21,7 +21,7 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule,
     RouterModule.forRoot(appRoutes),
-    TreeViewModule.forRoot()
+    NgTreeViewModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
